@@ -1,0 +1,5 @@
+{
+  "name": "Zenv",
+  "description": "A stateless, offline-first password generator and manager. Zero-knowledge architecture ensures your passwords are never stored, only regenerated deterministically.",
+  "requestFramePermissions": []
+}
