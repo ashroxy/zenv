@@ -23,6 +23,10 @@
 
 <br/><br/>
 
+[![Download APK](https://img.shields.io/badge/Download-ZenV_v1.0.0-blue?style=for-the-badge&logo=android)](https://github.com/zen-ash-dev/zenv/releases/latest)
+
+<br/>
+
 [REPORT BUG](https://github.com/zen-ash-dev/zenv/issues) • [REQUEST FEATURE](https://github.com/zen-ash-dev/zenv/issues)
 
 </div>
