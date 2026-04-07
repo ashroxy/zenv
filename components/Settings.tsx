@@ -32,6 +32,9 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
   // Import State
   const [isImporting, setIsImporting] = useState(false);
 
+  // Delete confirmation state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   // Step 1: Encrypt the data
   const handlePrepareBackup = async () => {
     if (!passphrase) return setStatus('Encryption Password Required');
@@ -57,15 +60,14 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
     }
   };
 
-  // ✅ DEBUG VERSION of handleSave
   const handleSave = async () => {
-      alert("Starting Save Process..."); 
-
       if (!encryptedBackup || !backupFileName) {
-          alert("Error: No backup data found.");
+          setStatus('Error: No backup data found.');
           return;
       }
 
+      setStatus('Saving...');
+      
       try {
         if (Capacitor.isNativePlatform()) {
             try {
@@ -76,14 +78,11 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
                     encoding: Encoding.UTF8,
                     recursive: true 
                 });
-                alert("SUCCESS! File saved at: " + result.uri);
-                setStatus('File Saved to "Documents" folder!');
+                setStatus('Saved to Documents: ' + result.uri);
             } catch (docError: any) {
-                alert("Documents failed: " + JSON.stringify(docError));
+                setStatus('Documents failed, trying external...');
                 
-                // Fallback: Try External Storage
                 try {
-                    alert("Trying External Storage...");
                     await Filesystem.writeFile({
                         path: backupFileName,
                         data: encryptedBackup,
@@ -91,14 +90,12 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
                         encoding: Encoding.UTF8,
                         recursive: true
                     });
-                    alert("SUCCESS! Saved to External Storage.");
-                    setStatus('File Saved to Device Storage!');
+                    setStatus('Saved to Device Storage!');
                 } catch (extError: any) {
-                     alert("External Storage also failed: " + JSON.stringify(extError));
+                     setStatus('External Storage failed: ' + (extError.message || 'error'));
                 }
             }
         } else {
-            // Web Browser Fallback
             const blob = new Blob([encryptedBackup], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); 
@@ -108,14 +105,13 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
             a.click(); 
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            alert("File Downloaded (Web Mode)");
+            setStatus('File Downloaded!');
         }
 
         resetExport();
       } catch (e: any) {
-          alert("CRITICAL ERROR: " + JSON.stringify(e));
           console.error(e);
-          setStatus('Save Failed: ' + (e.message || e));
+          setStatus('Save Failed: ' + (e.message || 'unknown error'));
       }
   };
 
@@ -308,7 +304,7 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
             )}
         </div>
 
-        <div className="bg-red-500/5 rounded-[2rem] p-6 border border-red-500/10 flex items-center justify-between cursor-pointer hover:bg-red-500/10 transition-colors active:scale-[0.98]" onClick={() => { if(window.confirm('WARNING: This will permanently delete local data for this profile. Are you sure?')) onWipe(); }}>
+        <div className="bg-red-500/5 rounded-[2rem] p-6 border border-red-500/10 flex items-center justify-between cursor-pointer hover:bg-red-500/10 transition-colors active:scale-[0.98]" onClick={() => { if(!showDeleteConfirm) setShowDeleteConfirm(true); }}>
             <div className="flex items-center gap-4">
                 <div className="p-3 bg-red-500/10 rounded-full text-red-500"><Trash2 size={20} /></div>
                 <div>
@@ -318,6 +314,24 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
             </div>
             <AlertTriangle size={16} className="text-red-500/50" />
         </div>
+
+        {/* Delete Confirmation */}
+        {showDeleteConfirm && (
+            <div className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-8 animate-fade-in">
+                <div className="bg-surface border border-red-500/30 rounded-[2rem] p-6 w-full max-w-sm">
+                    <h3 className="text-xl font-bold text-red-500 mb-4 text-center">Delete All Data?</h3>
+                    <p className="text-secondary text-sm mb-6 text-center">This will permanently delete all passwords for {currentUser.name}. This cannot be undone.</p>
+                    <div className="flex gap-3">
+                        <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors">
+                            Cancel
+                        </button>
+                        <button onClick={() => { setShowDeleteConfirm(false); onWipe(); }} className="flex-1 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-500 transition-colors">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
 
       </div>
     </div>

@@ -16,15 +16,21 @@ const Vault: React.FC<VaultProps> = ({ recipes, onAdd, onDelete, onEdit, masterK
   const [search, setSearch] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [revealedPasswords, setRevealedPasswords] = useState<Record<string, string>>({});
+  const [message, setMessage] = useState<string | null>(null);
 
   const filtered = recipes.filter(r => 
     r.serviceName.toLowerCase().includes(search.toLowerCase()) || 
     r.username.toLowerCase().includes(search.toLowerCase())
   );
 
+  const showMessage = (msg: string) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(null), 2500);
+  };
+
   const handleCopy = async (e: React.MouseEvent, recipe: PasswordRecipe) => {
     e.stopPropagation();
-    if (!masterKey) return alert("Unlock Required: Please enter Master Key in Generator.");
+    if (!masterKey) return showMessage("Unlock Required: Enter Master Key in Generator");
     
     try {
       const pwd = await generateDeterministicPassword(
@@ -47,7 +53,7 @@ const Vault: React.FC<VaultProps> = ({ recipes, onAdd, onDelete, onEdit, masterK
         return;
     }
 
-    if (!masterKey) return alert("Unlock Required: Please enter Master Key in Generator.");
+    if (!masterKey) return showMessage("Unlock Required: Enter Master Key in Generator");
 
     try {
         const pwd = await generateDeterministicPassword(
@@ -76,6 +82,13 @@ const Vault: React.FC<VaultProps> = ({ recipes, onAdd, onDelete, onEdit, masterK
   return (
     <div className="flex flex-col h-full font-sans">
       
+      {/* Message Toast */}
+      {message && (
+          <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-surface border border-white/10 rounded-full shadow-glow animate-fade-in">
+              <span className="text-sm text-white">{message}</span>
+          </div>
+      )}
+
       {/* Glossy Header */}
       <div className="px-6 pt-8 pb-4 sticky top-0 z-20 bg-background/80 backdrop-blur-xl">
         <div className="flex justify-between items-start mb-6">

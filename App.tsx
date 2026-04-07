@@ -156,12 +156,18 @@ const App: React.FC = () => {
 
       {/* Privacy Overlay */}
       {isPrivacyActive && !showIntro && (
-          <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center text-center p-8 animate-fade-in">
+          <div 
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center text-center p-8 animate-fade-in cursor-pointer"
+            onClick={() => {
+                setIsPrivacyActive(false);
+                lastActive.current = Date.now();
+            }}
+          >
               <div className="p-8 bg-surface rounded-full border border-white/10 shadow-glow mb-6 animate-pulse">
                   <EyeOff size={48} className="text-white" />
               </div>
               <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Locked</h2>
-              <p className="text-secondary text-sm">Resume session to authenticate.</p>
+              <p className="text-secondary text-sm">Tap to resume session</p>
           </div>
       )}
 

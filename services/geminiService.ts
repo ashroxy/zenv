@@ -3,8 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 let client: GoogleGenAI | null = null;
 
 const getClient = () => {
-  if (!client && process.env.API_KEY) {
-    client = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  if (!client && import.meta.env.VITE_GEMINI_API_KEY) {
+    client = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
   }
   return client;
 };

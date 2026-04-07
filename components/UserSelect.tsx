@@ -12,6 +12,7 @@ interface UserSelectProps {
 const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDelete }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState('');
+  const [deleteConfirm, setDeleteConfirm] = useState<{show: boolean; user: UserProfile | null}>({show: false, user: null});
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +64,7 @@ const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDe
                 <ArrowRight size={20} className="text-zinc-600 group-hover:text-white transition-colors" />
                 {users.length > 1 && (
                     <button 
-                        onClick={(e) => { e.stopPropagation(); if(confirm(`Delete profile "${user.name}" and all its passwords?`)) onDelete(user.id); }}
+                        onClick={(e) => { e.stopPropagation(); setDeleteConfirm({show: true, user}); }}
                         className="p-2 text-zinc-700 hover:text-red-500 transition-colors z-10"
                     >
                         <Trash2 size={16} />
@@ -101,6 +102,23 @@ const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDe
           </button>
         )}
       </div>
+
+      {deleteConfirm.show && deleteConfirm.user && (
+        <div className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-8 animate-fade-in">
+          <div className="bg-surface border border-red-500/30 rounded-[2rem] p-6 w-full max-w-sm">
+            <h3 className="text-xl font-bold text-red-500 mb-4 text-center">Delete Profile?</h3>
+            <p className="text-secondary text-sm mb-6 text-center">This will permanently delete "{deleteConfirm.user.name}" and all its passwords.</p>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteConfirm({show: false, user: null})} className="flex-1 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors">
+                Cancel
+              </button>
+              <button onClick={() => { onDelete(deleteConfirm.user!.id); setDeleteConfirm({show: false, user: null}); }} className="flex-1 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-500 transition-colors">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,50 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Zenv</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            colors: {
-              background: '#000000',
-              surface: '#1c1c1e',
-              surfaceHighlight: '#2c2c2e',
-              primary: '#ffffff',
-              secondary: '#a1a1aa',
-              accent: '#6366f1', // Indigo-500 equivalent
-            },
-            backgroundImage: {
-              'glossy-gradient': 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
-              'spotlight': 'radial-gradient(circle at 50% 0%, rgba(100,100,100,0.15) 0%, transparent 70%)',
-            },
-            boxShadow: {
-              'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
-              'glow': '0 0 20px rgba(255, 255, 255, 0.1)',
-            },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-10px)' },
-              },
-              loading: {
-                '0%': { transform: 'scaleX(0)' },
-                '100%': { transform: 'scaleX(1)' }
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
       html, body, #root {
         height: 100%;
@@ -103,17 +59,7 @@
         border-radius: 999px;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
-  }
-}
-</script>
+  
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
