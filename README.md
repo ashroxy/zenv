@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/version-1.0.0-00ff00?style=for-the-badge&logo=android" alt="Version" />
   <img src="https://img.shields.io/badge/security-OFFLINE_ONLY-ff0000?style=for-the-badge&logo=shield" alt="Security" />
   <img src="https://img.shields.io/badge/aesthetic-CYBERPUNK-00ffff?style=for-the-badge&logo=design" alt="Aesthetic" />
-  <img src="https://img.shields.io/badge/maintained%20by-zen--ash--dev-blueviolet?style=for-the-badge&logo=github" alt="Maintainer" />
+  <img src="https://img.shields.io/badge/maintained%20by-ashroxy-blueviolet?style=for-the-badge&logo=github" alt="Maintainer" />
 </p>
 
 <br/>
@@ -23,11 +23,11 @@
 
 <br/><br/>
 
-[![Download APK](https://img.shields.io/badge/Download-ZenV_v1.0.0-blue?style=for-the-badge&logo=android)](https://github.com/zen-ash-dev/zenv/releases/latest)
+[![Download APK](https://img.shields.io/badge/Download-ZenV_v1.0.0-blue?style=for-the-badge&logo=android)](https://github.com/ashroxy/zenv/releases/latest)
 
 <br/>
 
-[REPORT BUG](https://github.com/zen-ash-dev/zenv/issues) • [REQUEST FEATURE](https://github.com/zen-ash-dev/zenv/issues)
+[REPORT BUG](https://github.com/ashroxy/zenv/issues) • [REQUEST FEATURE](https://github.com/ashroxy/zenv/issues)
 
 </div>
 
@@ -83,7 +83,7 @@ Want to run this locally? Follow the white rabbit. 🐇
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/zen-ash-dev/zenv.git](https://github.com/zen-ash-dev/zenv.git)
+git clone [https://github.com/ashroxy/zenv.git](https://github.com/ashroxy/zenv.git)
 
 # 2. Enter the mainframe
 cd zenv
