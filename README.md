@@ -1,95 +1,84 @@
-<div align="center">
-
-# 🔐 ZenV
-### The Zero-Knowledge Identity Vault
-
-<p>
-  <img src="https://img.shields.io/badge/version-1.0.0-00ff00?style=for-the-badge&logo=android" alt="Version" />
-  <img src="https://img.shields.io/badge/security-OFFLINE_ONLY-ff0000?style=for-the-badge&logo=shield" alt="Security" />
-  <img src="https://img.shields.io/badge/aesthetic-CYBERPUNK-00ffff?style=for-the-badge&logo=design" alt="Aesthetic" />
-  <img src="https://img.shields.io/badge/maintained%20by-ashroxy-blueviolet?style=for-the-badge&logo=github" alt="Maintainer" />
-</p>
-
-<br/>
+# ZenV — Zero-Knowledge Identity Vault
 
 > *"True security is not stored. It is generated."*
 
-<br/>
+A stateless, zero-knowledge password manager and identity engine for Android. Built with React Native, TypeScript, and Expo.
 
-<img src="https://github.com/user-attachments/assets/e8ab4f24-8d09-4a09-a125-dc1a2da27852" 
-     alt="ZenV App Demo" 
-     width="300" 
-     style="border-radius: 15px; box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.5);">
+## Overview
 
-<br/><br/>
+ZenV is not just a password manager — it is a **stateless identity engine** built for privacy purists who trust math over cloud servers. All data stays on your device, encrypted with AES-256, and the master key never leaves RAM.
 
-[![Download APK](https://img.shields.io/badge/Download-ZenV_v1.0.0-blue?style=for-the-badge&logo=android)](https://github.com/ashroxy/zenv/releases/latest)
+## Features
 
-<br/>
+- **Zero-Knowledge** — No data ever leaves your device
+- **Stateless Generation** — Passwords derived from Master Key + Salt
+- **Multi-Profile Partitioning** — Personal / Office / Burner profiles with isolated vaults
+- **AES-256 Encrypted Storage** — Local vault secured with industry-standard encryption
+- **Encrypted Backups** — Proprietary `.cvx` file format for portable exports
+- **Ghost Mode (Offline First)** — Zero internet permissions; cannot "phone home"
+- **Active Defense**
+  - Screenshot blocking on sensitive screens
+  - Clipboard auto-wipe to prevent memory leaks
+  - Manual master key flushing from RAM
+- **Cyberpunk UI** — Neon-glass aesthetic with dark mode default and smooth transitions
 
-[REPORT BUG](https://github.com/ashroxy/zenv/issues) • [REQUEST FEATURE](https://github.com/ashroxy/zenv/issues)
+## Tech Stack
 
-</div>
+| Layer | Technology |
+|-------|-----------|
+| Framework | React Native + Expo |
+| Language | TypeScript |
+| Encryption | AES-256 (on-device) |
+| Storage | Local encrypted vault |
+| Platform | Android |
 
----
-
-## ⚡ System Architecture
-
-ZenV is not just a password manager; it is a **stateless identity engine**. Built for privacy purists who trust math over cloud servers.
+## Security Architecture
 
 | Feature | Status | Protocol |
 | :--- | :---: | :--- |
 | **Zero-Knowledge** | ✅ | No data leaves your device. Ever. |
 | **Stateless Gen** | ✅ | Passwords derived from Master Key + Salt. |
-| **Multi-Profile** | ✅ | Windows-style user isolation (Personal/Office). |
+| **Multi-Profile** | ✅ | Windows-style user isolation (Personal/Office/Burner). |
 | **Storage** | 🔒 | AES-256 Encrypted Local Vault. |
 | **Backup** | 💾 | Proprietary `.cvx` encrypted file export. |
+| **Internet** | ❌ | App has zero internet permissions. |
 
----
+## Getting Started
 
-## 🚀 Key Capabilities
+### Prerequisites
 
-### 🕵️ **Ghost Mode (Offline First)**
-ZenV operates without internet permissions. It cannot "phone home" because it doesn't know how.
+- Node.js 18+
+- Expo CLI (`npm install -g expo-cli`)
+- Android SDK (for Android deployment)
 
-### 👥 **Multi-User Partitioning**
-Just like a desktop OS, switch between **Personal**, **Work**, or **Burner** profiles instantly. Each vault is encrypted separately.
-
-### 📟 **The "Matrix" Experience**
-A glossy, responsive UI featuring:
-* Neon-glass aesthetic & micro-interactions.
-* Dark Mode default.
-* Smooth, futuristic transitions.
-
-### 🛡️ **Active Defense**
-* **Screenshot Blocking:** Overlay protection on sensitive screens.
-* **Clipboard Auto-Wipe:** Prevents memory leaks.
-* **Master Key Flushing:** Manually clear keys from RAM.
-
----
-
-## 💻 Tech Stack
-
-![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=flat-square&logo=react&logoColor=%2361DAFB)
-![Expo](https://img.shields.io/badge/expo-1C1E24?style=flat-square&logo=expo&logoColor=#D04A37)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat-square&logo=node.js&logoColor=white)
-
----
-
-## 🛠️ Installation & Setup
-
-Want to run this locally? Follow the white rabbit. 🐇
+### Installation
 
 ```bash
-# 1. Clone the repository
-git clone [https://github.com/ashroxy/zenv.git](https://github.com/ashroxy/zenv.git)
-
-# 2. Enter the mainframe
+git clone https://github.com/ashroxy/zenv.git
 cd zenv
-
-# 3. Install dependencies
 npm install
+```
 
-# 4. Initiate Launch Sequence
+### Run on Android
+
+```bash
 npx expo run:android
+```
+
+Or open the project in Expo Go for development.
+
+### Build APK
+
+```bash
+eas build -p android
+```
+
+The APK is also available as a [Release download](https://github.com/ashroxy/zenv/releases/latest).
+
+## License
+
+MIT — fork it, build on it, make it yours.
+
+---
+
+[Report Bug](https://github.com/ashroxy/zenv/issues) · [Request Feature](https://github.com/ashroxy/zenv/issues) · [Releases](https://github.com/ashroxy/zenv/releases/latest)
