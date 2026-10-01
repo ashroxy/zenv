@@ -1,0 +1,70 @@
+ZenV
+Copyright (c) 2025 ashroxy
+
+This product includes software developed as part of the ZenV project.
+
+================================================================================
+Fonts
+================================================================================
+
+Inter
+  Files:      assets/fonts/inter-*.woff2
+  Upstream:   https://github.com/rsms/inter
+  Licence:    SIL Open Font License 1.1 (assets/fonts/LICENSE-Inter.txt)
+  Copyright:  Copyright (c) 2016 The Inter Project Authors
+              (https://github.com/rsms/inter/blob/master/LICENSE.txt)
+
+  Inter is not a Google font. It was previously consumed through an npm package
+  that mirrored Google Fonts' copy of it; the woff2 files are now committed
+  directly so provenance is pinned and no Google-hosted mirror is involved.
+
+JetBrains Mono
+  Files:      assets/fonts/jetbrains-mono-*.woff2
+  Upstream:   https://github.com/JetBrains/JetBrainsMono
+  Licence:    SIL Open Font License 1.1
+              (assets/fonts/LICENSE-JetBrains-Mono.txt)
+  Copyright:  Copyright (c) 2020 The JetBrains Mono Project Authors
+              (https://github.com/JetBrains/JetBrainsMono/blob/master/OFL.txt)
+
+  Likewise not a Google font; previously consumed via a mirroring npm package.
+
+  Only the `latin` and `latin-ext` subsets are bundled. The upstream projects also
+  publish cyrillic, greek and vietnamese subsets.
+
+================================================================================
+Icons
+================================================================================
+
+Lucide
+  Licence:    ISC
+  Copyright:  Copyright (c) for the Lucide Authors
+              (https://github.com/lucide-icons/lucide/blob/main/LICENSE)
+
+================================================================================
+Runtime framework
+================================================================================
+
+React          BSD-3-Clause   Copyright (c) Meta Platforms, Inc. and affiliates
+React DOM      BSD-3-Clause   Copyright (c) Meta Platforms, Inc. and affiliates
+
+Capacitor      MIT            Copyright (c) Ionic
+
+  @capacitor/core, @capacitor/android and @capacitor/filesystem provide the
+  native bridge. The filesystem plugin is used for encrypted backup export and
+  import.
+
+================================================================================
+Build-time only
+================================================================================
+
+These never appear in the shipped bundle. They are listed for completeness
+because they execute on a maintainer's machine.
+
+  Vite, Tailwind CSS, TypeScript, ESLint, Vitest, @vitejs/plugin-react,
+  @tailwindcss/vite, typescript-eslint, eslint-plugin-react-hooks, globals,
+  @eslint/js, @types/*
+
+  The Android build also resolves AndroidX and Android Gradle Plugin artifacts
+  from Google's Maven repository (`google()`). Those are required by the Android
+  toolchain and are a build-time dependency only; no artifact is fetched at
+  runtime, and the release APK does not request the INTERNET permission.

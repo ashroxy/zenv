@@ -3,15 +3,26 @@
 buildscript {
     
     repositories {
+        // `google()` is NOT a Google service dependency and must not be removed.
+        // It is the only Maven repository that hosts the AndroidX/AGP
+        // artifacts this build compiles against (`com.android.tools.build:*`,
+        // `androidx.*`). Dropping it breaks the build, it does not increase
+        // independence. `mavenCentral()` covers everything else.
         google()
         mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.13.0'
-        classpath 'com.google.gms:google-services:4.4.4'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        //
+        // `com.google.gms:google-services` was removed. It only exists to wire
+        // up Firebase Cloud Messaging, which no part of this app uses: there is
+        // no `google-services.json`, and no source file references PushNotifications
+        // or Firebase. Leaving it here meant Google's Maven was consulted on
+        // every build and that dropping a `google-services.json` into the tree
+        // would have silently enabled a Google cloud dependency.
     }
 }
 

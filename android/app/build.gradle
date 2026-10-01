@@ -44,11 +44,8 @@ dependencies {
 
 apply from: 'capacitor.build.gradle'
 
-try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
-        apply plugin: 'com.google.gms.google-services'
-    }
-} catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
-}
+// The conditional `com.google.gms.google-services` apply block was removed along
+// with its classpath. It existed solely to enable Firebase Cloud Messaging,
+// which this app never used, and its mere presence meant Google was part of the
+// build and one stray `google-services.json` would have switched on a cloud
+// dependency the product does not want.

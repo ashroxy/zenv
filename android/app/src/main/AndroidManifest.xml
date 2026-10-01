@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+      NO `android.permission.INTERNET` HERE, deliberately.
+
+      This app makes no network requests: no analytics, no telemetry, no sync,
+      no remote config. Declaring INTERNET meant the "cannot phone home" claim
+      was unverifiable - the OS was still willing to let the app open a socket,
+      so the guarantee rested entirely on code review plus a web-layer CSP.
+
+      Omitting it moves the guarantee into the OS: a release build physically
+      cannot open a socket. That is the only enforcement that cannot regress.
+
+      Live reload during development still needs it, so the permission is
+      declared in `src/debug/AndroidManifest.xml`. The manifest merger overlays
+      the debug variant on main, which means debug builds get INTERNET and
+      release builds do not - one file, no build-type conditionals, no way to
+      ship an internet-enabled release by accident.
+
+      To undo this (e.g. if a future feature genuinely needs the network), add
+      the permission back to this file. Nothing else needs to change.
+    -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"

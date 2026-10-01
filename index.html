@@ -2,8 +2,22 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <!--
+      Zoom is deliberately NOT disabled. `maximum-scale=1, user-scalable=no`
+      (removed here) blocks pinch-zoom, which fails WCAG 2.1 SC 1.4.4; the
+      layout is fluid rem-based, so it stays usable when zoomed.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Zenv - an offline, on-device password manager with deterministic, zero-knowledge password derivation." />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
     <title>Zenv</title>
+    <!--
+      No <meta http-equiv="Content-Security-Policy"> here on purpose: it would
+      apply in development too, where `script-src 'self'` blocks Vite's inline
+      HMR preamble. The policy is injected into the built HTML by the
+      `zenv-csp` plugin in vite.config.ts, so it ships without breaking dev.
+    -->
     <style>
       html, body, #root {
         height: 100%;
@@ -64,6 +78,12 @@
 </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding: 2rem; font-family: system-ui, sans-serif; color: #fff;">
+        Zenv is a client-side password manager and requires JavaScript. Nothing
+        is stored on a server, so there is no fallback page to render.
+      </p>
+    </noscript>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>

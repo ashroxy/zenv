@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug-only permissions.
+
+  Android's manifest merger overlays this variant on `src/main`, so these
+  declarations exist only in debug builds. Release builds therefore carry no
+  `android.permission.INTERNET` at all, which is what makes the offline
+  guarantee enforceable by the OS instead of by convention.
+
+  INTERNET is required here for Capacitor live reload, which serves the app from
+  the dev machine over http://<host>:3000. Nothing else in this app makes a
+  network request - not the vault, not backups, not fonts.
+
+  Do not move this permission into `src/main`: that would silently re-enable
+  network access for every release build.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

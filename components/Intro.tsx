@@ -13,7 +13,7 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
   useEffect(() => {
     const chars = "XYZ010101#@!&$";
     let iteration = 0;
-    let interval: any = null;
+    let interval: ReturnType<typeof setInterval> | null = null;
 
     // Start delay
     const startTimeout = setTimeout(() => {
@@ -21,7 +21,7 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
             setDisplayText(
                 targetText
                     .split("")
-                    .map((letter, index) => {
+                    .map((_, index) => {
                         if (index < iteration) {
                             return targetText[index];
                         }
@@ -31,7 +31,7 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
             );
             
             if (iteration >= targetText.length) { 
-                clearInterval(interval);
+                if (interval !== null) clearInterval(interval);
                 setTimeout(() => {
                     setOpacity(0);
                     setTimeout(onComplete, 800);
@@ -44,13 +44,17 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
 
     return () => {
         clearTimeout(startTimeout);
-        if(interval) clearInterval(interval);
+        if (interval !== null) clearInterval(interval);
     };
   }, [onComplete]);
 
   return (
     <div 
-        className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-700 ease-out"
+        onClick={onComplete}
+        role="button"
+        tabIndex={0}
+        aria-label="Skip introduction"
+        className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-700 ease-out cursor-pointer select-none"
         style={{ opacity }}
     >
         {/* Ambient Glow */}

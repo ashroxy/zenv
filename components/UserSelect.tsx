@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { UserProfile } from '../types';
-import { Plus, User, Trash2, ArrowRight } from './Icons';
+import type { UserProfile } from '../types';
+import { Plus, User, Trash2, ArrowRight, AlertTriangle } from './Icons';
 
 interface UserSelectProps {
   users: UserProfile[];
@@ -12,14 +12,23 @@ interface UserSelectProps {
 const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDelete }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState('');
+  const [createError, setCreateError] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{show: boolean; user: UserProfile | null}>({show: false, user: null});
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newName.trim()) {
-      onCreate(newName);
+    setCreateError(null);
+    const trimmed = newName.trim();
+    if (!trimmed) {
+      setCreateError('Profile name cannot be empty.');
+      return;
+    }
+    try {
+      onCreate(trimmed);
       setNewName('');
       setIsCreating(false);
+    } catch (err) {
+      setCreateError(err instanceof Error ? err.message : 'Could not create profile.');
     }
   };
 
@@ -76,25 +85,43 @@ const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDe
 
         {/* Create New Profile */}
         {isCreating ? (
-          <form onSubmit={handleCreate} className="bg-surface border border-white/20 rounded-[2rem] p-2 flex items-center animate-slide-up">
-            <input 
-              autoFocus
-              type="text"
-              value={newName}
-              onChange={e => setNewName(e.target.value)}
-              placeholder="Profile Name (e.g. Office)"
-              className="flex-1 bg-transparent px-4 py-3 text-white placeholder-zinc-500 focus:outline-none"
-            />
-            <button 
-              type="submit"
-              className="bg-white text-black p-3 rounded-full hover:scale-105 transition-transform"
-            >
-              <ArrowRight size={20} />
-            </button>
-          </form>
+          <div className="space-y-2 animate-slide-up">
+            <form onSubmit={handleCreate} className="bg-surface border border-white/20 rounded-[2rem] p-2 flex items-center">
+              <input 
+                autoFocus
+                type="text"
+                value={newName}
+                onChange={e => { setNewName(e.target.value); setCreateError(null); }}
+                placeholder="Profile Name (e.g. Office)"
+                aria-label="New profile name"
+                className="flex-1 bg-transparent px-4 py-3 text-white placeholder-zinc-500 focus:outline-none text-sm"
+              />
+              <button 
+                type="button"
+                onClick={() => { setIsCreating(false); setNewName(''); setCreateError(null); }}
+                className="p-3 text-zinc-500 hover:text-white text-xs"
+                aria-label="Cancel creating profile"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit"
+                aria-label="Save profile"
+                className="bg-white text-black p-3 rounded-full hover:scale-105 transition-transform"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </form>
+            {createError && (
+              <p role="alert" className="flex items-center gap-1.5 text-xs text-red-400 px-4">
+                <AlertTriangle size={14} className="shrink-0" />
+                <span>{createError}</span>
+              </p>
+            )}
+          </div>
         ) : (
           <button 
-            onClick={() => setIsCreating(true)}
+            onClick={() => { setIsCreating(true); setCreateError(null); }}
             className="w-full py-4 rounded-[2rem] border border-dashed border-white/20 text-zinc-500 hover:text-white hover:border-white/40 transition-all flex items-center justify-center gap-2"
           >
             <Plus size={20} />
