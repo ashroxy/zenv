@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CURRENT_DERIVATION_VERSION } from '../types';
 import type { PasswordRecipe } from '../types';

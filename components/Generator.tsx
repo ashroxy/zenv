@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, Copy, Check, AlertTriangle } from './Icons';
 import { generateDeterministicPassword, estimateEntropyBits } from '../services/cryptoUtils';

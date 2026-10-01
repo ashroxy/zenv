@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -7,3 +9,4 @@ const config: CapacitorConfig = {
 };
 
 export default config;
+

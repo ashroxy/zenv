@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useEffect, useState } from 'react';
 import { Shield, Lock } from './Icons';
 
@@ -86,3 +88,4 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
 };
 
 export default Intro;
+

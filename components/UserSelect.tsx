@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useState } from 'react';
 import type { UserProfile } from '../types';
 import { Plus, User, Trash2, ArrowRight, AlertTriangle } from './Icons';
@@ -151,3 +153,4 @@ const UserSelect: React.FC<UserSelectProps> = ({ users, onSelect, onCreate, onDe
 };
 
 export default UserSelect;
+

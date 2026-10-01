@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { PasswordRecipe, UserProfile } from '../types';
 import { Plus, Search, Copy, Eye, EyeOff, Shield, Trash2, Key } from './Icons';

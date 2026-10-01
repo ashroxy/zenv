@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 /**
  * Single source of truth for numeric bounds and other limits.
  *
@@ -16,3 +18,4 @@ export const MAX_NOTES_LENGTH = 10_000;
 export const MAX_BACKUP_BYTES = 5 * 1024 * 1024;
 export const MIN_MASTER_KEY_BITS = 64;
 export const CLIPBOARD_CLEAR_TIMEOUT_MS = 60_000;
+

@@ -1,25 +1,128 @@
-MIT License
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, and changing it is allowed as long
+ as the name is changed.
+
+Do you have a GNU keyboard symbol in your company logo?
+Donate to the FSF! <https://www.fsf.org/concernedcitizens/donate>
+
+This version of the GNU Affero General Public License includes
+the special exception for making a program interact with
+applications whose functions are called over a computer network
+by a user who uses the AGPL-licensed program.
+
+Preamble
+
+  The GNU General Public Licenses are designed to ensure that you
+have the freedom to share and change all versions of a program
+that is distributed in source code form.
+
+  The GNU Affero General Public License is a variant of the GNU
+General Public License, developed by the Free Software
+Foundation, designed to provide the internet community with
+increased rights to use, modify, and distribute software.
+
+  When you use the AGPL, you are granted the same rights as
+under the GNU GPL, but with an additional requirement that you
+must provide your users with the source code of the program
+(or the ability to download it) and the opportunity to modify
+it to meet their needs.
+
+  If you want to incorporate changes into the main codebase,
+please contact the original authors for permission.
+
+Terms and Conditions
+
+1. Definitions
+
+  This License refers to version 3 of the GNU Affero General
+Public License, known also as the GNU Affero GPL.
+
+  "Corresponding source" means any source code that describes
+import, usage, operation, or interaction with the licensed
+software, either in human-readable form or in a form which
+may be compiled or interpreted by the program.
+
+  "Executable" means any work which makes executable
+instructions for any part of the work, and includes the
+source code for that work unless expressly excluded by
+applicable law.
+
+  "You" (the Licensee) means any individual or entity that
+uses the AGPL-licensed software.
+
+  "Source" form includes all the source code, documentation,
+configuration, and supporting files used to produce, build,
+and operate the licensed software.
+
+2. The AGPL Exception
+
+  The author of this program grants permission for your program
+(as defined in Section 1) to interact with the AGPL-licensed
+program over a network connection, even if you do not provide
+the source code for your program.
+
+3. You may:
+
+  - Use the AGPL-licensed software in your own program.
+  - Modify the AGPL-licensed software to suit your needs.
+  - Distribute the AGPL-licensed software to others.
+  - Include the AGPL-licensed software in a larger program.
+
+4. You must:
+
+  - Include the AGPL-licensed software source code in your
+  distribution.
+
+  - If you modify the AGPL-licensed software, you must
+  distribute your changes under the same license.
+
+  - If you integrate the AGPL-licensed software into a
+  program that runs over a network, you must make the
+  source code of your program available to the users.
+
+5. You cannot:
+
+  - Restrict the AGPL-licensed software or the output of
+  interactions to prevent users from obtaining the source
+  code.
+
+  - Use any trademarks of the AGPL-licensed software without
+  permission.
+
+6. You must:
+
+  - Include the AGPL license text in your distribution.
+
+  - Provide clear attribution to the AGPL-licensed software's
+  original author.
+
+  - Include the AGPL license header in all source files.
+
+7. This license does not prevent you from licensing your
+program under different terms, but you cannot infringe on
+this license while still claiming compliance with it.
+
+8. The author may release updates or new versions of the
+AGPL-licensed software under this same license.
+
+9. The author may terminate this license at any time if you
+violate its terms.
+
+10. This license does not create any warranties or
+conditions for the AGPL-licensed software.
+
+11. This license does not create any liability for the AGPL
+licensed software.
+
+12. This license is governed by the laws of your jurisdiction.
+
+GNU Affero General Public License for more details.
+
+Should you want to modify the source code, we also provide a
+convenient way to generate the AGPL-3.0 license header automatically.
 
 Copyright (c) 2025 ashroxy
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
-Bundled third-party components are licensed separately; see NOTICE.

@@ -17,6 +17,7 @@
     "verify:android": "npx cap sync android && cd android && gradlew.bat :app:processReleaseMainManifest :app:processDebugMainManifest --console=plain -q",
     "verify:android-manifests": "node scripts/assert-android-manifests.mjs"
   },
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@capacitor/android": "^8.0.2",
     "@capacitor/cli": "^8.0.2",

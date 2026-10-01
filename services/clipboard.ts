@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import { CLIPBOARD_CLEAR_TIMEOUT_MS } from './limits';
 
 let activeClearTimer: ReturnType<typeof setTimeout> | null = null;
@@ -81,3 +83,4 @@ const wipeClipboardIfMatching = async (expectedSecret: string): Promise<void> =>
     // Clipboard write may fail if document is unfocused; best-effort
   }
 };
+

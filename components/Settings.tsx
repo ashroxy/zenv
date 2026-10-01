@@ -1,3 +1,5 @@
+﻿// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2025 ashroxy
 import React, { useEffect, useRef, useState } from 'react';
 import { Download, Upload, Trash2, Lock, ArrowRight, Check, AlertTriangle, User, FileText } from './Icons';
 import type { PasswordRecipe, UserProfile } from '../types';
@@ -449,5 +451,5 @@ const handleImport = () => {
   );
 };
 
-// ✅ EXPORT WITH THE NEW NAME
+// âœ… EXPORT WITH THE NEW NAME
 export default SettingsPage;
