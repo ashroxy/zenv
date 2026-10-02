@@ -139,7 +139,7 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
   };
 
   return (
-    <div className="h-full flex flex-col font-sans px-6 pt-8 pb-32 overflow-y-auto">
+    <div className="h-full flex flex-col font-sans px-6 pt-8 pb-40 overflow-y-auto">
 
       <h1 className="text-3xl font-bold tracking-tight text-white mb-8">
           Generate <span className="text-zinc-400">Pass</span>

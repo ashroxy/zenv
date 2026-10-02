@@ -211,7 +211,7 @@ const handleImport = () => {
   };
 
   return (
-    <div className="h-full px-6 pt-8 pb-32 font-sans overflow-y-auto">
+    <div className="h-full px-6 pt-8 pb-40 font-sans overflow-y-auto">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold text-white">System</h1>
         <div className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-zinc-400 border border-white/5">

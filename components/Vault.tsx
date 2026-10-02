@@ -201,8 +201,8 @@ const Vault: React.FC<VaultProps> = ({ recipes, onAdd, onDelete, onEdit, masterK
         </div>
       </div>
 
-      {/* List Content */}
-      <div className="flex-1 overflow-y-auto px-4 pb-32 space-y-3">
+{/* List Content */}
+      <div className="flex-1 overflow-y-auto px-4 pb-40 space-y-3">
         {!masterKey && setMasterKey && (
           <div className="bg-surface border border-white/10 rounded-[2rem] p-6 mb-2 space-y-4 shadow-xl">
             <div className="flex items-center gap-3">
