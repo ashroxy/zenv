@@ -36,3 +36,6 @@ tsconfig.tsbuildinfo
 # Expo & Mobile Build Files (Keeps repo light)
 .expo/
 web-build/
+
+# Release APKs (excluded for size, linked from releases)
+dist/*.apk
