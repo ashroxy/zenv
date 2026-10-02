@@ -56,7 +56,8 @@ const Vault: React.FC<VaultProps> = ({ recipes, onAdd, onDelete, onEdit, masterK
   // forever, so they survived profile switch, auto-lock and lock-screen.
   useEffect(() => {
     setRevealedPasswords({});
-  }, [userProfile.id, masterKey]);
+    cancelAll();
+  }, [userProfile.id, masterKey, cancelAll]);
 
   // Cancel pending timers on unmount and whenever the vault is torn down.
   useEffect(() => cancelAll, [cancelAll]);
