@@ -17,6 +17,14 @@ describe('clipboard auto-wipe service', () => {
     });
     readTextMock = vi.fn(() => Promise.resolve(clipboardContent));
 
+    if (typeof (globalThis as unknown as { navigator: unknown }).navigator === 'undefined') {
+      Object.defineProperty(globalThis, 'navigator', {
+        value: {},
+        configurable: true,
+        writable: true,
+      });
+    }
+
     Object.defineProperty(navigator, 'clipboard', {
       value: {
         writeText: writeTextMock,

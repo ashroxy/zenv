@@ -113,6 +113,14 @@ Object.defineProperty(globalThis, 'localStorage', {
   writable: true,
 });
 
+if (typeof (globalThis as unknown as { navigator: unknown }).navigator === 'undefined') {
+  Object.defineProperty(globalThis, 'navigator', {
+    value: {},
+    configurable: true,
+    writable: true,
+  });
+}
+
 /** Reset between tests: empty storage and no injected failures. */
 export const resetStorage = (): void => {
   storageFailures.quota = null;
