@@ -1,14 +1,21 @@
-<div align="center">
-
 # ZenV
 
-**Stateless, zero-knowledge deterministic identity vault for Android and Web**
+An airgapped password manager for Android and Web that calculates credentials on demand instead of storing them in a vault.
 
-[![Build & Verification](https://img.shields.io/badge/verification-100%25%20passing-emerald?style=flat-square&logo=vitest)](https://github.com/ashroxy/zenv)
+```bash
+git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev
+```
+
+![ZenV Demo: Generating a deterministic password](assets/demo.svg)
+
+<div align="center">
+
+[![CI](https://github.com/ashroxy/zenv/actions/workflows/ci.yml/badge.svg)](https://github.com/ashroxy/zenv/actions/workflows/ci.yml)
 [![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Web-blue?style=flat-square&logo=android)](https://github.com/ashroxy/zenv)
 [![Security](https://img.shields.io/badge/network-airgapped%20by%20OS-blueviolet?style=flat-square&logo=shield)](https://github.com/ashroxy/zenv)
 [![Crypto](https://img.shields.io/badge/crypto-PBKDF2%20%2B%20AES--256--GCM-orange?style=flat-square&logo=letsencrypt)](https://github.com/ashroxy/zenv)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange?style=flat-square)](LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/ashroxy/zenv?style=flat-square&color=blue)](https://github.com/ashroxy/zenv/releases)
 
 </div>
 
@@ -111,7 +118,19 @@ Debug builds retain `INTERNET` only for Capacitor live reload; release builds ar
 
 ## Getting Started
 
-### Prerequisites
+### Quick Start (Web)
+
+Run locally in one command:
+
+```bash
+git clone https://github.com/ashroxy/zenv.git && cd zenv && npm install && npm run dev
+```
+
+### Prebuilt Android APK
+
+Download the signed offline release directly from [GitHub Releases](https://github.com/ashroxy/zenv/releases/latest).
+
+### Prerequisites (Full Build)
 
 - **Node.js**: 18.0.0+
 - **npm**: 9.0.0+
