@@ -12,7 +12,9 @@ ZenV is an ideal candidate for **IzzyOnDroid** and **F-Droid**:
 IzzyOnDroid is the most popular community repository on F-Droid. Once approved here, users on Android with F-Droid, Obtainium, or Neo Store can search and install ZenV directly.
 
 ### Step 1: Open Inclusion Issue
-Go to: **[https://gitlab.com/IzzyOnDroid/repo/-/issues/new](https://gitlab.com/IzzyOnDroid/repo/-/issues/new)**
+IzzyOnDroid moved their issue tracker to Codeberg:
+Go to: **[https://codeberg.org/IzzyOnDroid/repodata/issues/new](https://codeberg.org/IzzyOnDroid/repodata/issues/new)**
+*(Alternative / mirror tracker if needed: https://gitlab.com/IzzyOnDroid/repo/-/issues)*
 
 ### Step 2: Select Template
 Select template: **`Inclusion Request`**
