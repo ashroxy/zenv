@@ -18,15 +18,24 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('zenv-release.jks')
-            storePassword 'zenvkeystorepass'
-            keyAlias 'zenv'
-            keyPassword 'zenvkeystorepass'
+            def keystorePath = System.getenv('ZENV_KEYSTORE_PATH') ?: 'zenv-release.jks'
+            def keystorePass = System.getenv('ZENV_KEYSTORE_PASSWORD') ?: System.getenv('KEYSTORE_PASSWORD')
+            def keyAliasVal = System.getenv('ZENV_KEY_ALIAS') ?: 'zenv'
+            def keyPass = System.getenv('ZENV_KEY_PASSWORD') ?: keystorePass
+
+            if (keystorePass && file(keystorePath).exists()) {
+                storeFile file(keystorePath)
+                storePassword keystorePass
+                keyAlias keyAliasVal
+                keyPassword keyPass
+            }
         }
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
