@@ -171,6 +171,13 @@ cd android && ./gradlew assembleRelease
   - Steps to reproduce the issue
   - Relevant error messages
 
+## Issue Triage & Response SLA
+
+Maintainers are committed to active, responsive open-source stewardship:
+- **First Response:** Every issue submitted receives an initial maintainer review and triage response within **24 hours**.
+- **Issue Labeling:** Issues are promptly tagged as `bug`, `enhancement`, `question`, or `good first issue` to help community members find entry points.
+- **Security Reports:** For security vulnerabilities, follow the private disclosure process in [SECURITY.md](SECURITY.md) (acknowledged within 1–3 business days).
+
 ## License
 
 By contributing to ZenV, you agree that your contributions will be licensed under the AGPL‑3.0‑or‑later license.
