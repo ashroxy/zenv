@@ -1,97 +1,140 @@
-# 🛡️ ZenV — Airgapped Deterministic Password Vault
+# ZenV
 
-> **ZenV is a free, open-source password and identity manager for Android and Web that calculates your passwords mathematically on demand. Zero cloud servers, zero database leaks, and zero internet permissions.**
-
-<div align="center">
-
-[![Try Live Web Demo](https://img.shields.io/badge/Demo-Launch%20Web%20App-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ashroxy.github.io/zenv/)
-[![Download Android APK](https://img.shields.io/badge/Download-Android%20APK%20(v1.0.1)-1f6feb?style=for-the-badge&logo=android&logoColor=white)](https://github.com/ashroxy/zenv/releases/latest)
-
-</div>
-
-<div align="center">
+Deterministic, airgapped password and identity vault for Android and Web.
 
 [![CI](https://github.com/ashroxy/zenv/actions/workflows/ci.yml/badge.svg)](https://github.com/ashroxy/zenv/actions/workflows/ci.yml)
+[![Deploy Pages](https://github.com/ashroxy/zenv/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ashroxy/zenv/actions/workflows/deploy-pages.yml)
 [![Platform](https://img.shields.io/badge/platform-Android%20%7C%20Web-blue?style=flat-square&logo=android)](https://github.com/ashroxy/zenv)
 [![Security](https://img.shields.io/badge/network-airgapped%20by%20OS-blueviolet?style=flat-square&logo=shield)](https://github.com/ashroxy/zenv)
 [![Crypto](https://img.shields.io/badge/crypto-PBKDF2%20%2B%20AES--256--GCM-orange?style=flat-square&logo=letsencrypt)](https://github.com/ashroxy/zenv)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange?style=flat-square)](LICENSE)
 [![Latest Release](https://img.shields.io/github/v/release/ashroxy/zenv?style=flat-square&color=blue)](https://github.com/ashroxy/zenv/releases)
 
-</div>
+---
+
+### Quick Access
+
+* **Web Application (Live Sandbox):** [ashroxy.github.io/zenv](https://ashroxy.github.io/zenv/)
+* **Android APK (Direct Download):** [GitHub Releases](https://github.com/ashroxy/zenv/releases/latest) *(Obtainium-compatible)*
+* **Local Run:** `git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev`
+
+---
 
 ![ZenV Demo: Generating a deterministic password](assets/demo.svg)
 
-```bash
-# Quick local run in 1 command
-git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev
+---
+
+## Overview
+
+ZenV calculates credentials mathematically from your master key on demand instead of storing them in a database. Plaintext passwords never touch disk storage.
+
+Key architectural guarantees:
+- **Stateless Derivation**: Credentials exist in memory only when displayed or copied, clearing automatically after 30 seconds.
+- **OS-Enforced Airgap**: The release Android build omits `android.permission.INTERNET`. Socket creation is rejected directly by the operating system kernel.
+- **Zero Remote Dependencies**: Zero telemetry, zero analytics SDKs, zero external CDNs. All interface fonts (Inter and JetBrains Mono) are vendored locally.
+- **Authenticated Local Metadata**: Service labels, usernames, and rotation counters are stored locally under `AES-256-GCM` encryption stretched from a session secret.
+- **Reproducible Verification**: CI gates strictly assert airgap manifests, lack of bundled credentials, zero remote network references, and 100% cryptographic test coverage.
+
+---
+
+## Cryptographic Architecture
+
+```mermaid
+flowchart TD
+    subgraph Inputs["Session Inputs"]
+        MasterKey["Master Key (Secret)"]
+        Profile["Profile Salt"]
+        Service["Service Domain / Label"]
+        Username["Username / Account"]
+        Counter["Counter (Key Rotation)"]
+    end
+
+    subgraph Derivation["Deterministic KDF Engine"]
+        SaltString["Salt: zenv:v2:{profile}:{service}:{username}:{counter}"]
+        PBKDF2["PBKDF2-HMAC-SHA256 (100,000 rounds)"]
+        Sampling["Uniform Rejection Sampling (Zero Modulo Bias)"]
+    end
+
+    subgraph Output["Runtime Output"]
+        Password["Generated Password (Ephemeral Memory)"]
+    end
+
+    subgraph StorageEngine["Local Metadata at Rest"]
+        StorageKey["Storage Key (AES-256-GCM)"]
+        EncryptedVault["Encrypted Vault Container (.cvx)"]
+    end
+
+    MasterKey --> PBKDF2
+    Profile --> SaltString
+    Service --> SaltString
+    Username --> SaltString
+    Counter --> SaltString
+    SaltString --> PBKDF2
+    PBKDF2 --> Sampling
+    Sampling --> Password
+
+    MasterKey --> StorageKey
+    StorageKey --> EncryptedVault
 ```
-
-ZenV derives credentials mathematically from a master key instead of storing them. It uses PBKDF2‑HMAC‑SHA256 (100k iterations) and AES‑256‑GCM for encrypted storage, ensuring no plaintext passwords exist on disk.
-
-**Key principles:**
-- **No server, no sync, no analytics** — 100% offline-first.
-- **Zero‑knowledge via deterministic derivation** — credentials are reconstructed on the fly.
-- **Hardware‑ and OS‑enforced airgap** — `android.permission.INTERNET` is omitted from release builds; web CSP enforces `connect-src 'none'`.
-- **Memory‑hard cryptography** — uniform rejection sampling eliminates modulo bias across custom pools.
-- **Obtainium & F-Droid friendly** — direct APK downloads from GitHub Releases with automatic updates via Obtainium.
-
----
-
-## Features
-
-- **Stateless derivation** — Passwords = PBKDF2(masterKey, salt = `"zenv:v2:{profile}:{service}:{username}:{counter}"`).
-- **Airgap enforced** — Release builds omit `android.permission.INTERNET`; web CSP uses `connect-src 'none'`.
-- **AES‑256‑GCM at rest** — Account metadata encrypted under a session‑derived CryptoKey.
-- **Multi‑profile isolation** — Each profile gets a unique cryptographic salt.
-- **Ephemeral secrets** — Revealed passwords auto‑clear after 30 s; clipboard auto‑wipes.
-- **Encrypted backups** — `.cvx` files are authenticated PBKDF2 + AES‑256‑GCM containers.
-- **Self‑hosted UI** — Inter & JetBrains Mono fonts bundled; no external CDNs.
-
----
-
-## Architecture
 
 ### 1. Deterministic Password Derivation
 
-```
+```text
 Master Key + Salt("zenv:v2:{profile}:{service}:{username}:{counter}")
     → PBKDF2-HMAC-SHA256 (100k iterations)
-    → Uniform rejection sampling
-    → Generated password
+    → Uniform rejection sampling across character pool
+    → Derived password
 ```
+
+Password rotation requires no changes to your master key: incrementing the `:counter` generates a cryptographically distinct, unrelated pseudorandom output.
 
 ### 2. Vault Encryption at Rest
 
-```
+```text
 Master Secret + Salt("zenv:v2:storage:{profile}")
-    → PBKDF2-HMAC-SHA256 (100k iterations) → AES-256-GCM key
-    → IV (12 random bytes) + ciphertext + tag
+    → PBKDF2-HMAC-SHA256 (100k iterations) → 256-bit AES-GCM Key
+    → 96-bit Random IV + Ciphertext + Authentication Tag
 ```
+
+Account configurations, custom character set flags, and counter values are stored with authenticated encryption. Exported backups (`.cvx` containers) use identical PBKDF2 + AES-256-GCM authenticated envelopes.
+
+---
+
+## Offline & Airgap Guarantees
+
+ZenV enforces a zero-network invariant at four independent validation layers:
+
+| Layer | Enforcement Mechanism | Verification Script |
+| :--- | :--- | :--- |
+| **Android OS** | `android.permission.INTERNET` is completely omitted from the release Android manifest. | `npm run verify:android-manifests` |
+| **Web Content Security Policy** | Production CSP strictly enforces `connect-src 'none'` and forbids external scripts or evaluators. | `vite.config.ts` |
+| **Local Bundled Assets** | All fonts (Inter, JetBrains Mono) and icons are bundled in `assets/fonts/`. No external CDN requests. | `npm run verify:no-remote-assets` |
+| **Zero Secrets & Telemetry** | Build pipeline scans distribution bundles to guarantee no API keys or cloud tokens are packaged. | `npm run verify:no-secrets` |
 
 ---
 
 ## Repository Structure
 
-```
+```text
 zenv/
 ├── android/                   # Native Android Capacitor shell
-│   ├── app/                   # Native app module & AndroidManifest.xml
-│   │   └── src/
-│   │       ├── main/          # Release configuration (INTERNET permission omitted)
-│   │       └── debug/         # Debug configuration (INTERNET enabled for live-reload)
+│   └── app/src/
+│       ├── main/              # Release configuration (INTERNET permission omitted)
+│       └── debug/             # Debug configuration (INTERNET enabled for live-reload)
 ├── assets/                    # Self-hosted web assets
-│   └── fonts/                 # Inter & JetBrains Mono WOFF2 binary fonts + licenses
+│   └── fonts/                 # Inter & JetBrains Mono binary WOFF2 fonts + licenses
 ├── components/                # React UI components
 │   ├── EditAccountModal.tsx   # Account creation, edit, & password preview modal
 │   ├── ErrorBoundary.tsx      # React error containment layer
 │   ├── Generator.tsx          # Dynamic password generation workbench
 │   ├── Icons.tsx              # Lucide icon set
-│   ├── Intro.tsx              # Boot sequence animation (tap-to-skip)
+│   ├── Intro.tsx              # Boot sequence animation
 │   ├── Manual.tsx             # Interactive offline user manual & security guide
 │   ├── Settings.tsx           # Profile management, export/import, wipe, & lock
 │   ├── UserSelect.tsx         # Multi-profile picker and registration
 │   └── Vault.tsx              # Encrypted account listing with Quick Unlock
+├── fastlane/                  # Metadata for IzzyOnDroid & F-Droid scrapers
+│   └── metadata/android/en-US/# Title, descriptions, and icon
 ├── scripts/                   # Automated verification & build-gate checks
 │   ├── assert-android-manifests.mjs   # Verifies release manifest lacks INTERNET
 │   ├── assert-no-bundled-secrets.mjs  # Scans bundle for credentials & API tokens
@@ -110,75 +153,52 @@ zenv/
 
 ---
 
-## Offline & Airgap Guarantees
-
-ZenV makes zero network calls at runtime. This is verified at four independent layers:
-
-| Layer | Mechanism | Checked by |
-| :--- | :--- | :--- |
-| **Android OS** | `android.permission.INTERNET` is omitted from the release manifest. Sockets are denied by the kernel. | `npm run verify:android-manifests` |
-| **Web CSP** | Production Content Security Policy enforces `connect-src 'none'` and forbids external scripts. | `vite.config.ts` |
-| **Zero Remote Assets** | All fonts and icons are bundled locally in `assets/fonts/`. No external CDNs. | `npm run verify:no-remote-assets` |
-| **Zero Cloud Dependencies** | Free of telemetry SDKs, analytics, cloud backends, or AI API dependencies. | `npm run verify:no-secrets` |
-
-Debug builds retain `INTERNET` only for Capacitor live reload; release builds are offline-only.
-
----
-
 ## Getting Started
 
-### Quick Start (Web)
-
-Run locally in one command:
+### Web (Local Development)
 
 ```bash
-git clone https://github.com/ashroxy/zenv.git && cd zenv && npm install && npm run dev
-```
-
-### Prebuilt Android APK
-
-Download the signed offline release directly from [GitHub Releases](https://github.com/ashroxy/zenv/releases/latest).
-
-### Prerequisites (Full Build)
-
-- **Node.js**: 18.0.0+
-- **npm**: 9.0.0+
-- **JDK**: OpenJDK 21 (for Android build)
-- **Android SDK / Android Studio** (for Android build)
-
-### Web Development
-
-```bash
+git clone https://github.com/ashroxy/zenv.git
+cd zenv
 npm install
 npm run dev
 ```
 
-### Android Native Build
+### Prebuilt Android APK
+
+Download the release `.apk` directly from [GitHub Releases](https://github.com/ashroxy/zenv/releases/latest).
+
+To automate updates on Android, paste `https://github.com/ashroxy/zenv` into [Obtainium](https://github.com/ImranR98/Obtainium).
+
+### Building Android from Source
+
+**Prerequisites:** Node.js 20+, JDK 21, Android SDK / Android Studio.
 
 ```bash
 npm run build
 npx cap sync android
-cd android && ./gradlew assembleDebug   # debug (with INTERNET for live-reload)
-cd android && ./gradlew assembleRelease # release (INTERNET omitted)
+cd android
+./gradlew assembleRelease
 ```
 
 ---
 
 ## Verification Suite
 
+Every commit is validated through an automated seven-step verification suite:
+
 ```bash
 npm run verify
 ```
 
-The suite runs seven checks:
-
+The gate verifies:
 1. **TypeScript Typecheck** (`tsc --noEmit`)
-2. **ESLint** static analysis
-3. **Vitest Unit Tests** (69+ tests covering cryptographic determinism, entropy distribution, storage error handling, schema parsing, clipboard cleanup)
-4. **Production Build** (tree-shaken asset packaging)
-5. **No Secrets Scan** (regex scan of bundled output)
-6. **No Remote Assets Check** (asserts zero CDN URLs in source or bundle)
-7. **Android Manifest Verification** (validates `INTERNET` presence in debug and absence in release)
+2. **ESLint Static Analysis** (`eslint .`)
+3. **Vitest Test Suite** (69 tests covering cryptographic determinism, entropy distribution, storage error handling, schema parsing, and clipboard timers)
+4. **Production Build** (Vite tree-shaking and asset packaging)
+5. **No Secrets Scan** (Regex scan preventing API tokens from reaching `dist/`)
+6. **No Remote Assets Check** (Asserts zero external CDNs or network fetches)
+7. **Android Manifest Verification** (Asserts absence of `android.permission.INTERNET` in release builds)
 
 ---
 
@@ -191,13 +211,11 @@ The suite runs seven checks:
 | **Symmetric Cipher** | `AES-GCM` (256-bit key) | Authenticated encryption at rest |
 | **IV Size** | `96-bit` (12 bytes) cryptographically random | Nonce uniqueness per storage write |
 | **Character Sampling** | Uniform Rejection Sampling | Eliminates modulo bias across custom pools |
-| **Legacy Compatibility**| `v1` derivation preserved | Guarantees existing passwords remain recoverable |
-
-Source: `services/cryptoUtils.ts`, `services/passwordGenerator.ts`.
+| **Legacy Compatibility**| `v1` derivation preserved | Ensures existing passwords remain recoverable |
 
 ---
 
 ## License & Attribution
 
-- **Source Code:** AGPL‑3.0‑or‑later (see `LICENSE`). Requires sharing source of any network-accessible derivative work.
-- **Third-Party Notices:** See `NOTICE` for font licenses and dependency attributions.
+- **Source Code:** [AGPL-3.0-or-later](LICENSE). Requires sharing the source of any network-accessible derivative work.
+- **Third-Party Notices:** See [NOTICE](NOTICE) for bundled font licenses (SIL OFL 1.1) and component attributions.

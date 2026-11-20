@@ -42,3 +42,7 @@ web-build/
 
 # Release APKs (excluded for size, linked from releases)
 dist/*.apk
+
+# Knowledge graph output & cache
+graphify-out/
+
