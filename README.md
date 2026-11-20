@@ -1,12 +1,13 @@
-# ZenV
+# 🛡️ ZenV — Airgapped Deterministic Password Vault
 
-An airgapped password manager for Android and Web that calculates credentials on demand instead of storing them in a vault.
+> **ZenV is a free, open-source password and identity manager for Android and Web that calculates your passwords mathematically on demand. Zero cloud servers, zero database leaks, and zero internet permissions.**
 
-```bash
-git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev
-```
+<div align="center">
 
-![ZenV Demo: Generating a deterministic password](assets/demo.svg)
+[![Try Live Web Demo](https://img.shields.io/badge/Demo-Launch%20Web%20App-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ashroxy.github.io/zenv/)
+[![Download Android APK](https://img.shields.io/badge/Download-Android%20APK%20(v1.0.1)-1f6feb?style=for-the-badge&logo=android&logoColor=white)](https://github.com/ashroxy/zenv/releases/latest)
+
+</div>
 
 <div align="center">
 
@@ -19,13 +20,21 @@ git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev
 
 </div>
 
+![ZenV Demo: Generating a deterministic password](assets/demo.svg)
+
+```bash
+# Quick local run in 1 command
+git clone https://github.com/ashroxy/zenv.git && cd zenv && npm i && npm run dev
+```
+
 ZenV derives credentials mathematically from a master key instead of storing them. It uses PBKDF2‑HMAC‑SHA256 (100k iterations) and AES‑256‑GCM for encrypted storage, ensuring no plaintext passwords exist on disk.
 
 **Key principles:**
-- No server, no sync, no analytics
-- Zero‑knowledge via deterministic derivation
-- Hardware‑ and OS‑enforced airgap
-- Memory‑hard cryptography
+- **No server, no sync, no analytics** — 100% offline-first.
+- **Zero‑knowledge via deterministic derivation** — credentials are reconstructed on the fly.
+- **Hardware‑ and OS‑enforced airgap** — `android.permission.INTERNET` is omitted from release builds; web CSP enforces `connect-src 'none'`.
+- **Memory‑hard cryptography** — uniform rejection sampling eliminates modulo bias across custom pools.
+- **Obtainium & F-Droid friendly** — direct APK downloads from GitHub Releases with automatic updates via Obtainium.
 
 ---
 

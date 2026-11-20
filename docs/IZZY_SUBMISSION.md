@@ -4,6 +4,7 @@ ZenV is an ideal candidate for **IzzyOnDroid** and **F-Droid**:
 - Licensed under **AGPL-3.0**.
 - Complete lack of `android.permission.INTERNET` (enforced airgap).
 - Signed APK attached to GitHub Releases.
+- Automated **Fastlane metadata** committed in `fastlane/metadata/android/en-US/` (title, short & full descriptions, icon).
 
 ---
 

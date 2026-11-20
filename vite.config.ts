@@ -87,6 +87,7 @@ const legalAssetsPlugin = (): Plugin => ({
 });
 
 export default defineConfig(() => ({
+  base: './',
   server: {
     port: 3000,
     // Loopback only. The previous config bound the dev server to 0.0.0.0,

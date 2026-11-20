@@ -35,6 +35,7 @@ Key guarantees:
 The codebase is open-source under AGPL-3.0, verified with a local test suite (69 tests covering entropy distribution, rejection sampling, and cryptographic determinism), and includes pre-built signed Android APKs.
 
 Code: https://github.com/ashroxy/zenv
+Live Web Demo: https://ashroxy.github.io/zenv/
 Releases & APK: https://github.com/ashroxy/zenv/releases
 
 I'd love feedback from the HN community on the cryptographic derivation scheme (services/cryptoUtils.ts) and the airgap verification gates.
