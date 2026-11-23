@@ -1,11 +1,12 @@
 ZenV is a free, open-source identity and password vault that derives credentials mathematically on the fly instead of storing passwords in an encrypted database or syncing across cloud servers.
 
 Key Features & Guarantees:
-• Strict OS-Enforced Airgap: The release APK completely omits the android.permission.INTERNET permission. Network socket creation is blocked directly by the OS kernel.
-• Zero Password Storage: Passwords are never saved in plaintext on disk; they are derived deterministically on demand from your master key and salt.
-• PBKDF2-HMAC-SHA256 & Rejection Sampling: High-iteration key derivation combined with uniform rejection sampling eliminates modulo bias across custom character sets.
-• AES-256-GCM Vault: Service names and counter metadata are encrypted locally with authenticated encryption using session-derived keys.
-• Effortless Password Rotation: Increment the profile counter to generate a completely new password without changing your master secret.
-• Ephemeral Secrets: Passwords revealed on screen auto-clear after 30 seconds, and the clipboard is automatically wiped.
-• Encrypted Offline Backups: Export and import authenticated .cvx backup containers.
-• Zero Trackers & Zero Analytics: No Firebase, no Google Play Services, no external CDNs, and no tracking libraries.
+
+* Strict OS-Enforced Airgap: The release APK completely omits the android.permission.INTERNET permission. Network socket creation is blocked directly by the OS kernel.
+* Zero Password Storage: Passwords are never saved in plaintext on disk; they are derived deterministically on demand from your master key and salt.
+* PBKDF2-HMAC-SHA256 & Rejection Sampling: High-iteration key derivation combined with uniform rejection sampling eliminates modulo bias across custom character sets.
+* AES-256-GCM Vault: Service names and counter metadata are stored locally with authenticated encryption using session-derived keys.
+* Effortless Password Rotation: Increment the profile counter to generate a completely new password without changing your master secret.
+* Ephemeral Secrets: Passwords revealed on screen auto-clear after 30 seconds, and the clipboard is automatically wiped.
+* Encrypted Offline Backups: Export and import authenticated .cvx backup containers.
+* Zero Trackers & Zero Analytics: No Firebase, no Google Play Services, no external CDNs, and no tracking libraries.
