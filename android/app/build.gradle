@@ -7,8 +7,8 @@ android {
         applicationId "com.zenv.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -24,8 +24,8 @@ android {
         release {
             def keystorePath = System.getenv('ZENV_KEYSTORE_PATH') ?: 'zenv-release.jks'
             def keystorePass = System.getenv('ZENV_KEYSTORE_PASSWORD') ?: System.getenv('KEYSTORE_PASSWORD')
-            def keyAliasVal = System.getenv('ZENV_KEY_ALIAS') ?: 'zenv'
-            def keyPass = System.getenv('ZENV_KEY_PASSWORD') ?: keystorePass
+            def keyAliasVal = System.getenv('ZENV_KEY_ALIAS') ?: System.getenv('KEY_ALIAS') ?: 'zenv'
+            def keyPass = System.getenv('ZENV_KEY_PASSWORD') ?: System.getenv('KEY_PASSWORD') ?: keystorePass
 
             if (keystorePass && file(keystorePath).exists()) {
                 storeFile file(keystorePath)

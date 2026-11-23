@@ -43,10 +43,20 @@ jobs:
         run: npx cap sync android
 
       - name: Build Android Release APK
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "Decoding release keystore from secrets..."
+            echo "$KEYSTORE_BASE64" | base64 -d > android/app/zenv-release.jks
+          fi
           cd android
           chmod +x gradlew
           ./gradlew assembleRelease --stacktrace
+          rm -f app/zenv-release.jks
 
       - name: Verify release APK airgap manifest
         run: node scripts/assert-android-manifests.mjs
