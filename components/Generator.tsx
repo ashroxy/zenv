@@ -34,8 +34,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
   const [counter, setCounter] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Config
   const [useUppercase, setUseUpper] = useState(true);
   const [useLowercase, setUseLower] = useState(true);
   const [useNumbers, setUseNumber] = useState(true);
@@ -146,7 +144,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
       </h1>
 
       <div className="space-y-6">
-        {/* Master Key Input */}
         <div className="bg-surface rounded-[2rem] p-6 border border-white/5 relative overflow-hidden group">
             <div className="flex justify-between items-center mb-4">
                 <span className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">Master Key</span>
@@ -188,8 +185,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
                 </p>
             )}
         </div>
-
-        {/* Inputs */}
         <div className="space-y-4">
              <div className="relative">
                  <input
@@ -213,8 +208,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
                  />
              </div>
         </div>
-
-        {/* Options */}
         <div className="bg-surface rounded-[2rem] p-6 border border-white/5 space-y-6">
             <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-zinc-300">Length: {length}</span>
@@ -264,8 +257,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
                 ))}
             </div>
         </div>
-
-        {/* Generate Button */}
         <button
             onClick={requestGeneration}
             disabled={!masterKey || !service || !username || isGenerating || keyTooWeak}
@@ -280,8 +271,6 @@ const Generator: React.FC<GeneratorProps> = ({ masterKey, setMasterKey, userProf
                 <span>{error}</span>
             </p>
         )}
-
-        {/* Result Area */}
         {generated && (
              <div className="animate-float mt-4 bg-surfaceHighlight border border-white/10 rounded-[2rem] p-8 text-center relative overflow-hidden">
                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50"></div>

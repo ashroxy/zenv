@@ -32,8 +32,6 @@ const EditAccountModal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, initi
     const [useSpecial, setUseSpecial] = useState(true);
     const [notes, setNotes] = useState('');
     const [formError, setFormError] = useState<string | null>(null);
-
-    // Decrypt state
     const [decryptKey, setDecryptKey] = useState('');
     const [showDecryptKey, setShowDecryptKey] = useState(false);
     const [decryptedPassword, setDecryptedPassword] = useState('');
@@ -71,7 +69,6 @@ const EditAccountModal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, initi
             setServiceName(''); setUsername(''); setLength(16); setCounter(1);
             setUseLower(true); setUseUpper(true); setUseNumber(true); setUseSpecial(true); setNotes('');
         }
-        // Reset local decrypt state on open
         setDecryptKey(masterKey || '');
         setDecryptedPassword('');
         setShowDecryptKey(false);
@@ -266,8 +263,6 @@ const EditAccountModal: React.FC<ModalProps> = ({ isOpen, onClose, onSave, initi
                              ))}
                         </div>
                     </div>
-
-                    {/* Decrypt / Reveal Section */}
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3">
                         <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-2">
                             <Key size={12} /> Master Reveal

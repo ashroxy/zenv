@@ -16,8 +16,6 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
     const chars = "XYZ010101#@!&$";
     let iteration = 0;
     let interval: ReturnType<typeof setInterval> | null = null;
-
-    // Start delay
     const startTimeout = setTimeout(() => {
         interval = setInterval(() => {
             setDisplayText(
@@ -59,7 +57,6 @@ const Intro: React.FC<IntroProps> = ({ onComplete }) => {
         className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-700 ease-out cursor-pointer select-none"
         style={{ opacity }}
     >
-        {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-[60px] animate-pulse"></div>
 
         <div className="relative z-10 flex flex-col items-center">
