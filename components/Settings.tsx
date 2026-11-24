@@ -41,20 +41,15 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
     setStatusIsError(isError);
   };
   
-  // Export State
   const [isPreparing, setIsPreparing] = useState(false);
   const [encryptedBackup, setEncryptedBackup] = useState<string | null>(null);
   const [backupFileName, setBackupFileName] = useState<string>('');
   
-  // Import State
   const [isImporting, setIsImporting] = useState(false);
 
-  // Delete confirmation state
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  // Legal & Licenses modal state
   const [showLegalModal, setShowLegalModal] = useState(false);
 
-  // Step 1: Encrypt the data
   const handlePrepareBackup = async () => {
     if (!passphrase) return report('Encryption Password Required', true);
     setIsPreparing(true);
@@ -72,7 +67,6 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
         setBackupFileName(buildBackupFileName(currentUser.name));
         report('Backup Encrypted & Ready');
     } catch (e) {
-        console.error(e);
         report(e instanceof Error ? e.message : 'Encryption Failed', true);
     } finally {
         setIsPreparing(false);
@@ -133,7 +127,6 @@ const SettingsPage: React.FC<SettingsProps> = ({ recipes, onImport, onWipe, onLo
 
         resetExport();
       } catch (e) {
-          console.error(e);
           report('Save Failed: ' + (e instanceof Error ? e.message : 'unknown error'), true);
       }
   };
@@ -186,7 +179,6 @@ const handleImport = () => {
             setSelectedFile(null);
             if (fileInputRef.current) fileInputRef.current.value = '';
           } catch (err) {
-            console.error(err);
             // Surface the specific reason: a malformed file and a wrong
             // passphrase need different user actions.
             report(err instanceof Error ? err.message : 'Restore Failed.', true);
@@ -249,7 +241,6 @@ const handleImport = () => {
             <ArrowRight size={16} className="text-zinc-600" />
         </div>
 
-        {/* Export / Backup Section */}
         <div className="bg-surface rounded-[2rem] p-6 border border-white/5 space-y-4">
             <div className="flex items-center gap-4 mb-2">
                 <div className="p-3 bg-white/5 rounded-full text-white"><Download size={20} /></div>
@@ -297,7 +288,6 @@ const handleImport = () => {
             )}
         </div>
 
-        {/* Import */}
         <div className="bg-surface rounded-[2rem] p-6 border border-white/5 space-y-4">
             <div className="flex items-center gap-4 mb-2">
                 <div className="p-3 bg-white/5 rounded-full text-white"><Upload size={20} /></div>
@@ -368,7 +358,6 @@ const handleImport = () => {
             <AlertTriangle size={16} className="text-red-500/50" />
         </div>
 
-        {/* Delete Confirmation */}
         {showDeleteConfirm && (
             <div className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-8 animate-fade-in">
                 <div className="bg-surface border border-red-500/30 rounded-[2rem] p-6 w-full max-w-sm">
@@ -386,7 +375,6 @@ const handleImport = () => {
             </div>
         )}
 
-        {/* Legal & Open Source Licenses Modal */}
         {showLegalModal && (
             <div className="fixed inset-0 z-[200] bg-black/90 flex flex-col items-center justify-center p-6 animate-fade-in" role="dialog" aria-modal="true" aria-labelledby="legal-title">
                 <div className="bg-surface border border-white/10 rounded-[2rem] p-6 w-full max-w-md max-h-[85vh] flex flex-col">
