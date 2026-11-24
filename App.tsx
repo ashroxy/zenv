@@ -24,9 +24,8 @@ import Intro from './components/Intro';
 import UserSelect from './components/UserSelect';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Shield, Key, Settings as SettingsIcon, BookOpen, EyeOff } from './components/Icons';
+import { useAutoLock } from './hooks/useAutoLock';
 
-const AUTO_LOCK_TIME = 2 * 60 * 1000;
-const IDLE_POLL_MS = 10_000;
 /** Debounce before deriving a key from the master-key field, so a fast typist
  *  triggers one PBKDF2 run instead of one per keystroke. */
 const UNLOCK_DEBOUNCE_MS = 250;
@@ -41,13 +40,8 @@ const App: React.FC = () => {
   const [masterKey, setMasterKey] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<PasswordRecipe | null>(null);
-  const [isPrivacyActive, setIsPrivacyActive] = useState(false);
   const [vaultError, setVaultError] = useState<string | null>(null);
 
-  // `Date.now()` in the useRef initializer is an impure call during render.
-  // Start at 0 and seed it in the mount effect below.
-  const lastActive = useRef<number>(0);
-  const idleTimer = useRef<number | null>(null);
 
   /**
    * Guards against a stale async load overwriting newer state.
@@ -75,10 +69,7 @@ const App: React.FC = () => {
   /** Bumped to re-open the vault after a successful unlock. */
   const [reloadToken, setReloadToken] = useState(0);
   const previousProfileId = useRef<string | null>(null);
-
-  // Initialize Users and seed the idle clock.
   useEffect(() => {
-    lastActive.current = Date.now();
     setAllUsers(getUsers());
   }, []);
 
@@ -96,8 +87,6 @@ const App: React.FC = () => {
     setActiveTab('vault');
     setVaultError(null);
   }, [profileId]);
-
-  // Load Recipes when the profile changes, or when a reload is requested.
   useEffect(() => {
     const token = ++loadToken.current;
     let cancelled = false;
@@ -165,8 +154,6 @@ const App: React.FC = () => {
       window.clearTimeout(timer);
     };
   }, [masterKey, profileId]);
-
-  // User Management Handlers
   const handleCreateUser = (name: string) => {
     const newUser = addUser(name);
     setAllUsers(prev => [...prev, newUser]);
@@ -199,80 +186,12 @@ const App: React.FC = () => {
     needsUnlock.current = true;
   }, []);
 
-  // Security & Visibility Logic
-  useEffect(() => {
-    const handleActivity = () => {
-        lastActive.current = Date.now();
-        if (document.visibilityState === 'visible' && !showIntro) {
-            setIsPrivacyActive(false);
-        }
-    };
-
-    const checkIdle = () => {
-        if (masterKey && (Date.now() - lastActive.current > AUTO_LOCK_TIME)) {
-            lock();
-            if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
-        }
-    };
-
-    const handleVisibilityChange = () => {
-        if (document.hidden) {
-            setIsPrivacyActive(true);
-            // SECURITY: `pagehide` is not guaranteed on Android app switches -
-            // it fires on navigation and unload, not every backgrounding. The
-            // key must go here, where `visibilitychange` is what actually fires
-            // when the app-switcher snapshot is taken.
-            lock();
-        } else {
-            setShowIntro(true);
-            setIsPrivacyActive(false);
-            handleActivity();
-        }
-    };
-
-    // SECURITY: hiding the app (app switcher snapshot, screen lock) must drop
-    // the master key. The previous code only drew a blur overlay, leaving the
-    // key in memory and in child component state.
-    const handleHide = () => {
-        if (document.hidden) {
-            setIsPrivacyActive(true);
-            lock();
-        }
-    };
-
-    const handleFocus = () => {
-        if (document.visibilityState === 'visible') handleActivity();
-    };
-    const handleBlur = () => setIsPrivacyActive(true);
-
-    // Named references: the original cleanup passed fresh closures to
-    // removeEventListener, which never matched and leaked a listener set per
-    // master-key keystroke.
-    window.addEventListener('mousemove', handleActivity);
-    window.addEventListener('touchstart', handleActivity);
-    window.addEventListener('click', handleActivity);
-    window.addEventListener('keydown', handleActivity);
-    window.addEventListener('focus', handleFocus);
-    window.addEventListener('blur', handleBlur);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('pagehide', handleHide);
-    idleTimer.current = window.setInterval(checkIdle, IDLE_POLL_MS);
-
-    return () => {
-      window.removeEventListener('mousemove', handleActivity);
-      window.removeEventListener('touchstart', handleActivity);
-      window.removeEventListener('click', handleActivity);
-      window.removeEventListener('keydown', handleActivity);
-      window.removeEventListener('focus', handleFocus);
-      window.removeEventListener('blur', handleBlur);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('pagehide', handleHide);
-      if (idleTimer.current !== null) {
-        window.clearInterval(idleTimer.current);
-        idleTimer.current = null;
-      }
-    };
-  }, [masterKey, showIntro, lock]);
+  const { isPrivacyActive, dismissPrivacy } = useAutoLock({
+    masterKey,
+    showIntro,
+    setShowIntro,
+    onLock: lock,
+  });
 
   const handleAddAccount = (recipe: PasswordRecipe) => {
     if (editingRecipe) {
@@ -350,21 +269,12 @@ const App: React.FC = () => {
 
   return (
     <div className="h-full w-full flex flex-col bg-background text-primary overflow-hidden relative selection:bg-white/20 pt-safe">
-
-      {/* Intro */}
       {showIntro && <Intro onComplete={() => setShowIntro(false)} />}
-
-      {/* Background Spotlight */}
       <div className="absolute inset-0 bg-spotlight pointer-events-none z-0"></div>
-
-      {/* Privacy Overlay */}
       {isPrivacyActive && !showIntro && (
           <div
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center text-center p-8 animate-fade-in cursor-pointer"
-            onClick={() => {
-                setIsPrivacyActive(false);
-                lastActive.current = Date.now();
-            }}
+            onClick={dismissPrivacy}
           >
               <div className="p-8 bg-surface rounded-full border border-white/10 shadow-glow mb-6 animate-pulse">
                   <EyeOff size={48} className="text-white" />
@@ -373,8 +283,6 @@ const App: React.FC = () => {
               <p className="text-secondary text-sm">Tap to resume session</p>
           </div>
       )}
-
-      {/* Main Content Area */}
       <main className={`flex-1 overflow-hidden relative z-10 transition-opacity duration-500 ${isPrivacyActive ? 'opacity-0' : 'opacity-100'}`}>
         {!currentUser && !showIntro ? (
             <UserSelect
@@ -430,8 +338,6 @@ const App: React.FC = () => {
             </>
         ) : null}
       </main>
-
-      {/* Navigation - Only show if logged in */}
       {currentUser && !showIntro && (
         <div className={`fixed bottom-0 left-0 right-0 z-50 px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] transition-all duration-500 ${isPrivacyActive ? 'translate-y-full' : 'translate-y-0'}`}>
             <nav className="mx-auto max-w-md bg-surface/80 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl flex justify-between items-center px-6 py-4">
@@ -458,8 +364,6 @@ const App: React.FC = () => {
             </nav>
         </div>
       )}
-
-      {/* Edit Modal */}
       {currentUser && (
           <EditAccountModal
             isOpen={isModalOpen}
